@@ -56,6 +56,11 @@ public class Field {
 		this.pole[i][j] = val;
 	}
 	
+	
+	public void setShipsArray(Ship[] ships) {
+		this.ships = ships;
+	}
+	
 	public void setShipsCount(int shipsCount) {
         this.shipsCount = shipsCount;
     }

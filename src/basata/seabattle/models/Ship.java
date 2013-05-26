@@ -32,6 +32,10 @@ public class Ship {
         points = new Point[size];
     }
     
+    
+    public Field getField() {
+		return field;
+	}
     /**
      * Check if (i,j) are in field
      * @param i
@@ -53,7 +57,7 @@ public class Ship {
      * cell @param x, @param y; 
      * 
      */
-    private boolean CheckPlace(int x, int y, int p){
+    public boolean CheckPlace(int x, int y, int p){
         if(p == 0){
             if (y + this.size >= 9){
                 return false;
@@ -71,6 +75,37 @@ public class Ship {
                 return false;
             }
             for(int i = x - 1; i < x + this.size + 1; i++){
+                for (int j = y - 1; j < y + 2; j++) {
+                    if ((inField(i, j) ) &&
+                            (this.field.getElem(i,j) != Field.FREE_CELL)){
+                        return false;
+                    }    
+                }
+            }
+        }
+        return true;    
+    }
+    
+    
+    
+    public boolean CheckPlace(int x, int y, int size, int p){
+        if(p == 0){
+            if (y + size > 10){
+                return false;
+            }
+            for(int i = x - 1; i < x + 2; i++){
+                for (int j = y - 1; j < y + size + 1; j++) {
+                    if ( (inField(i, j))  &&
+                            (this.field.getElem(i,j) != Field.FREE_CELL)) {
+                        return false;
+                    }    
+                }
+            }
+        } else{
+            if (x + size > 10){
+            	return false;
+            }
+            for(int i = x - 1; i < x + size + 1; i++){
                 for (int j = y - 1; j < y + 2; j++) {
                     if ((inField(i, j) ) &&
                             (this.field.getElem(i,j) != Field.FREE_CELL)){
@@ -126,6 +161,26 @@ public class Ship {
             }
         }
     }
+    
+    
+    public void SetShip(int x, int y, int size, int position){
+        int k = 0;
+        if (position == 0){
+            for(int j = y; j < y + size; j++){
+                points[k] = new Point(x, j);
+                this.field.setElem(x, j, Field.CELL_WITH_SHEEP);
+                k++;
+            }
+        }else{
+            for(int j = x; j < x + size; j++){
+                points[k] = new Point(j, y);
+                this.field.setElem(j, y, Field.CELL_WITH_SHEEP);
+                k++;
+            }
+        }
+    }
+    
+    
 
     
     /**
