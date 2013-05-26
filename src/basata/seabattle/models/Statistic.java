@@ -53,6 +53,9 @@ public class Statistic {
 	}
 
 	public static Statistic parseStatistic(String str) throws Exception {
+		if (str.equals("0")) {
+			return new Statistic();
+		}
 		String[] parts = str.split(",");
 		int res[][] = parseArray(parts);
 		return new Statistic(res);
