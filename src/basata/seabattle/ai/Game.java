@@ -3,6 +3,7 @@ package basata.seabattle.ai;
 import basata.seabattle.conection.BattleMessage;
 import basata.seabattle.conection.MessConst;
 import basata.seabattle.conection.SocketBattleClient;
+import basata.seabattle.gui.GameForm2;
 import basata.seabattle.gui.GamesList;
 import basata.seabattle.models.Field;
 import basata.seabattle.models.Statistic;
@@ -12,6 +13,7 @@ public class Game {
 	private SocketBattleClient sbk;
 	private Statistic statistic;
 	private AI ai;
+	private GameForm2 gameForm;
 
 	public Game(String ip, int port) {
 		sbk = new SocketBattleClient(ip, port);
@@ -58,7 +60,8 @@ public class Game {
 		return null;
 	}
 
-	public BattleMessage createNewGame(Field field) {
+	public BattleMessage createNewGame(Field field, GameForm2 form) {
+		gameForm = form;
 		try {
 			statistic.plusField(field);
 			BattleMessage tmp = new BattleMessage(MessConst.CREATE_NEW_GAME,
@@ -71,7 +74,8 @@ public class Game {
 		return null;
 	}
 
-	public BattleMessage joinGame(int gameId) {
+	public BattleMessage joinGame(int gameId, GameForm2 form) {
+		gameForm = form;
 		BattleMessage tmp = new BattleMessage(MessConst.JOIN_GAME, gameId);
 		try {
 			BattleMessage res = sbk.sendRequest(tmp);
