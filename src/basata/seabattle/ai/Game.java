@@ -1,5 +1,7 @@
 package basata.seabattle.ai;
 
+import java.awt.Point;
+
 import basata.seabattle.conection.BattleMessage;
 import basata.seabattle.conection.MessConst;
 import basata.seabattle.conection.SocketBattleClient;
@@ -14,6 +16,7 @@ public class Game {
 	private Statistic statistic;
 	private AI ai;
 	private GameForm2 gameForm;
+	private boolean isEnemyOnline; 
 
 	public Game(String ip, int port) {
 		sbk = new SocketBattleClient(ip, port);
@@ -99,6 +102,26 @@ public class Game {
 		return null;
 	}
 
-	
+	public int makeShot(int x, int y){
+		BattleMessage tmp = new BattleMessage(MessConst.SHOT, new Point(x, y));
+		try {
+			BattleMessage res = sbk.sendRequest(tmp);
+			switch (res.type) {
+			case MessConst.SHOT_FAIL:
+				return Field.STRUCKED_FREE_CELL;
+			case MessConst.SHOT_HIT:
+				return Field.STRUCKED_CELL_WITH_SHEEP;
+			case MessConst.SHOT_KILL:
+				return Field.STRUCKED_CELL_WITH_SHEEP;
+			case MessConst.LOSE:
+				return Field.STRUCKED_CELL_WITH_SHEEP;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 	
 }
