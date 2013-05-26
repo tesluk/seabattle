@@ -60,6 +60,12 @@ public class BattleMessage {
 		statistic = stat;
 	}
 
+	public BattleMessage(int _type, Field _field, Statistic _statistic) {
+		type = _type;
+		field = _field;
+		statistic = _statistic;
+	}
+
 	public BattleMessage(int _type) {
 		type = _type;
 	}
@@ -182,14 +188,20 @@ public class BattleMessage {
 			break;
 
 		case MessConst.CREATE_NEW_GAME:
-			throw new Exception("realize it!");
+			res = concatArrays(res, field.FromOBJToString().getBytes());
+			res = concatArrays(res, ";".getBytes());
+			res = concatArrays(res, statistic.getString().getBytes());
+			break;
 
 		case MessConst.JOIN_GAME:
 			res = concatArrays(res, ByteBuffer.allocate(4).putInt(id).array());
 			break;
 
 		case MessConst.READY:
-			throw new Exception("realize it!");
+			res = concatArrays(res, field.FromOBJToString().getBytes());
+			res = concatArrays(res, ";".getBytes());
+			res = concatArrays(res, statistic.getString().getBytes());
+			break;
 
 		case MessConst.SHOT:
 		case MessConst.SHOT_FAIL:

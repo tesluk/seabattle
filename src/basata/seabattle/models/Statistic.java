@@ -1,5 +1,7 @@
 package basata.seabattle.models;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 /**
  * 
  * @author Tab
@@ -73,6 +75,19 @@ public class Statistic {
 			res[i / n][i % n] = Integer.parseInt(arr[i]);
 		}
 		return res;
+	}
+
+	public String getString() {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < count.length; i++) {
+			for (int j = 0; j < count.length; j++) {
+				builder.append(String.valueOf(count[i][j]));
+				if (i + j != count.length * 2 - 2) {
+					builder.append(",");
+				}
+			}
+		}
+		return builder.toString();
 	}
 
 	public static void main(String[] args) throws Exception {
